@@ -1,0 +1,25 @@
+config setup
+    charondebug="ike 2, knl 2, cfg 2"
+    strictcrlpolicy=no
+
+conn %default
+    ikelifetime=60m
+    keylife=30m
+    rekeymargin=3m
+    keyingtries=3
+    keyexchange=ikev2
+    authby=secret
+
+conn vpn-site
+    left=192.168.138.10
+    leftid=@vpnserver
+    leftsubnet=192.168.138.10/32
+    right=192.168.138.20
+    rightid=@vpnclient
+    rightsubnet=192.168.138.20/32
+    ike=aes256gcm16-sha256-modp2048!
+    esp=aes256gcm16-sha256!
+    auto=add
+    type=tunnel
+    dpdaction=restart
+    dpddelay=30s

@@ -1,0 +1,11 @@
+---
+# ─── Variables OpenVPN serveur ────────────────────────────────
+openvpn_port: 1194
+openvpn_proto: udp
+openvpn_cipher: AES-256-GCM
+openvpn_auth: SHA256
+openvpn_network: 10.8.0.0
+openvpn_netmask: 255.255.255.0
+openvpn_verbosity: 3
+lan_network: 192.168.230.0
+lan_netmask: 255.255.255.0

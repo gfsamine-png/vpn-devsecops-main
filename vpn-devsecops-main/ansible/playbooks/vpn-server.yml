@@ -1,0 +1,9 @@
+---
+- name: Configurer le serveur VPN
+  hosts: vpn_server
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_become_timeout: 60
+  roles:
+    - vpn-server

@@ -1,0 +1,61 @@
+---
+- name: Installer strongSwan
+  apt:
+    name:
+      - strongswan
+      - strongswan-pki
+      - libcharon-extra-plugins
+      - libstrongswan-extra-plugins
+    state: present
+    update_cache: yes
+
+- name: Déployer ipsec.conf depuis le template
+  template:
+    src: ipsec.conf.j2
+    dest: /etc/ipsec.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart strongswan
+
+- name: Déployer ipsec.secrets depuis le template
+  template:
+    src: ipsec.secrets.j2
+    dest: /etc/ipsec.secrets
+    owner: root
+    group: root
+    mode: '0600'
+  notify: restart strongswan
+
+- name: Activer et démarrer strongSwan
+  systemd:
+    name: strongswan-starter
+    enabled: yes
+    state: started
+# ─── Installation et configuration OpenVPN ────────────────────
+- name: Installer OpenVPN
+  apt:
+    name: openvpn
+    state: present
+    update_cache: yes
+
+- name: Créer le répertoire OpenVPN client
+  file:
+    path: /etc/openvpn/client
+    state: directory
+    mode: '0700'
+
+- name: Déployer client.conf depuis le template
+  template:
+    src: client.conf.j2
+    dest: /etc/openvpn/client/client.conf
+    owner: root
+    group: root
+    mode: '0600'
+  notify: restart openvpn-client
+
+- name: Activer et démarrer OpenVPN client
+  systemd:
+    name: openvpn-client@client
+    enabled: yes
+    state: started

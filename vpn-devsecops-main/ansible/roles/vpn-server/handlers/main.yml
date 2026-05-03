@@ -1,0 +1,11 @@
+---
+# ─── Handlers de redémarrage des services VPN ─────────────────
+- name: restart strongswan
+  systemd:
+    name: strongswan-starter
+    state: restarted
+
+- name: restart openvpn-server
+  systemd:
+    name: openvpn-server@server
+    state: restarted

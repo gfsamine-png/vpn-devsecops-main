@@ -1,0 +1,32 @@
+# ─── Réseau ───────────────────────────────────────────────────
+client
+dev tun
+proto {{ openvpn_proto }}
+remote {{ openvpn_server_ip }} {{ openvpn_port }}
+remote-cert-tls server
+
+# ─── Certificats ──────────────────────────────────────────────
+ca   /etc/openvpn/client/ca.crt
+cert /etc/openvpn/client/vpnclient.crt
+key  /etc/openvpn/client/vpnclient.key
+
+# ─── Authentification TLS ─────────────────────────────────────
+tls-crypt /etc/openvpn/client/ta.key
+tls-version-min 1.2
+
+# ─── Cryptographie ────────────────────────────────────────────
+data-ciphers {{ openvpn_cipher }}
+auth {{ openvpn_auth }}
+
+# ─── Routage ──────────────────────────────────────────────────
+route {{ openvpn_server_ip }} 255.255.255.255 net_gateway
+
+# ─── Sécurité ─────────────────────────────────────────────────
+persist-key
+persist-tun
+nobind
+user nobody
+group nogroup
+
+# ─── Journalisation ───────────────────────────────────────────
+verb {{ openvpn_verbosity }}

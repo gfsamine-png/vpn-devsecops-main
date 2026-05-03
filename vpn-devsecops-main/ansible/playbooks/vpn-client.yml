@@ -1,0 +1,9 @@
+---
+- name: Configurer le client VPN
+  hosts: vpn_client
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_become_timeout: 60
+  roles:
+    - vpn-client
